@@ -4,5 +4,8 @@ SOCKS4/5/5a mixer prototype. This prototype receives incoming SOCKS connections,
 
 From the perspective of a third party sniffing traffic, they will only see one SOCKS connection between the client and the proxy (Server), instead of the N SOCKS connections that might be launched.
 
+NOT FUNCTIONAL YET!
+
 ## TODO
 * Make a configuration file for settings.
+* Solve networking issue.
