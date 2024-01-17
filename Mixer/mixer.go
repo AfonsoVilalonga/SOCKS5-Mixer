@@ -4,6 +4,8 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+
+	"github.com/knadh/chunkedreader"
 )
 
 var channelMap = make(map[uint64]net.Conn)
@@ -31,12 +33,10 @@ func send(conn_server net.Conn, conn_client net.Conn, streamID uint64) {
 }
 
 func readFromServer(conn_server net.Conn) {
-	for {
-		buffer := make([]byte, 1040)
-		_, err := conn_server.Read(buffer)
-		if err != nil {
-			return
-		}
+	ch := chunkedreader.New(conn_server, 1040)
+	for ch.Read() {
+		buffer := ch.Bytes()
+
 		streamID := binary.BigEndian.Uint64(buffer[:8])
 		len := binary.BigEndian.Uint64(buffer[8:16])
 
